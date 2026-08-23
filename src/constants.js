@@ -1,0 +1,1 @@
+DB_NAME = hospital_management
