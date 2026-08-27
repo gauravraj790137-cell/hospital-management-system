@@ -29,6 +29,10 @@ import { departmentmodel } from "../models/departments.model";
     const departments = await departmentmodel.find();
     res.status(200).json(departments);
  })
+
+
+
+
  const getDepartmentById = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
@@ -39,6 +43,28 @@ import { departmentmodel } from "../models/departments.model";
         throw new Error("Department not found");
     }
 
+    res.status(200).json(department);
+});
+
+
+const updateDepartment = asyncHandler(async (req, res) => {
+    const { name, description, headOfDepartment } = req.body;
+    const { id } = req.params;
+
+    const department = await departmentmodel.findByIdAndUpdate(
+        id,
+        {
+            name,
+            description,
+            headOfDepartment
+        },
+        { new: true }
+    );
+
+    if (!department) {
+        res.status(404);
+        throw new Error("Department not found");
+    }
     res.status(200).json(department);
 });
 
