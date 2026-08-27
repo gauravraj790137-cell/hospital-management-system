@@ -69,6 +69,20 @@ const updateDepartment = asyncHandler(async (req, res) => {
 });
 
 
+const deleteDepartment = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const department = await departmentmodel.findByIdAndDelete(id);
+    if (!department) {
+        res.status(404);
+        throw new Error("Department not found");
+    }
+    res.status(200).json({
+        message: "Department deleted successfully",
+        department
+    });
+
+});
+
  
 
 
