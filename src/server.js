@@ -13,3 +13,6 @@ const startserver = async()=>{
 }
 
 startserver();
+
+import departmentroutes from "./routes/department.routes.js";   
+app.use("/api/departments", departmentroutes);
