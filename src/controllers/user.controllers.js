@@ -48,3 +48,40 @@ const createUser  = asyncHandler(async (req, res) => {
 
 
 
+const loginUser = asyncHandler(async (req, res) => {
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        res.status(400);
+        throw new Error("Email and password are required");
+    }
+
+    const user = await usermodel.findOne({ email });
+
+    if (!user) {
+        res.status(404);
+        throw new Error("User does not exist");
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect(password);
+
+    if (!isPasswordValid) {
+        res.status(401);
+        throw new Error("Invalid password");
+    }
+
+    const { accessToken, refreshToken } =
+        await generateAccessAndRefereshTokens(user._id);
+
+    const loggedInUser = await usermodel
+        .findById(user._id)
+        .select("-password -refreshToken");
+
+    res.status(200).json({
+        user: loggedInUser,
+        accessToken,
+        refreshToken
+    });
+
+});
