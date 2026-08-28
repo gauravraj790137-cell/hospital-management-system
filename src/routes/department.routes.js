@@ -16,5 +16,3 @@ router.patch("/:id", updateDepartment);
 
 router.delete("/:id", deleteDepartment);
 
-
-export default router;
