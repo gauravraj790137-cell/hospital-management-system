@@ -78,6 +78,9 @@ const loginUser = asyncHandler(async (req, res) => {
         .findById(user._id)
         .select("-password -refreshToken");
 
+    res.cookie("accessToken", accessToken, options);
+    res.cookie("refreshToken", refreshToken, options);
+
     res.status(200).json({
         user: loggedInUser,
         accessToken,
@@ -85,3 +88,29 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 
 });
+
+
+const logoutUser = asyncHandler(async(req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $unset: {
+                refreshToken: 1 // this removes the field from document
+            }
+        },
+        {
+            new: true
+        }
+    )
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User logged Out"))
+
+
+})
