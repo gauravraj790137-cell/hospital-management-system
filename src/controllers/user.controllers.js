@@ -239,3 +239,20 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 
+const deleteUser = asyncHandler(async (req, res) => {
+
+    const { id } = req.params;
+
+    const user = await usermodel.findByIdAndDelete(id);
+
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    res.status(200).json({
+        message: "User deleted successfully",
+        user
+    });
+
+});
