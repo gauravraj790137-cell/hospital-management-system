@@ -18,6 +18,10 @@ router.patch("/:id", updateUser);
 
 router.delete("/:id", deleteUser);
 
+router.patch("/change-password", verifyJWT, changePassword);
+
+router.post("/logout", verifyJWT, logoutUser);
+
 
 export default router;
 
