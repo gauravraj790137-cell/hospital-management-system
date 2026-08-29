@@ -211,3 +211,31 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
     .status(200)
     .json(new ApiResponse(200, {}, "Password changed successfully"))
 })
+
+const updateUser = asyncHandler(async (req, res) => {
+
+    const { name, email, id, role } = req.body;
+
+    const user = await usermodel.findByIdAndUpdate(
+        req.params.id,
+        {
+            name,
+            email,
+            id,
+            role
+        },
+        { new: true }
+    ).select("-password -refreshToken");
+
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    res.status(200).json({
+        message: "User details updated successfully",
+        user
+    });
+});
+
+
