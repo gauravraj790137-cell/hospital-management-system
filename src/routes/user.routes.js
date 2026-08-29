@@ -16,7 +16,7 @@ router.get("/:id", getUserById);
 
 router.patch("/:id", updateUser);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", verifyJWT, deleteUser);
 
 router.patch("/change-password", verifyJWT, changePassword);
 
