@@ -114,3 +114,80 @@ const logoutUser = asyncHandler(async(req, res) => {
 
 
 })
+
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+
+    // Get refresh token from cookies or request body
+    const incomingRefreshToken =
+        req.cookies.refreshToken || req.body.refreshToken;
+
+    // Check if refresh token exists
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, "Unauthorized request");
+    }
+
+    try {
+
+        // Verify refresh token
+        const decodedToken = jwt.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        );
+
+        // Find user from decoded token
+        const user = await User.findById(decodedToken?._id);
+
+        // Check if user exists
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token");
+        }
+
+        // Check if refresh token matches the one stored in DB
+        if (incomingRefreshToken !== user.refreshToken) {
+            throw new ApiError(
+                401,
+                "Refresh token is expired or already used"
+            );
+        }
+
+        // Cookie options
+        const options = {
+            httpOnly: true,
+            secure: true,
+        };
+
+        // Generate new access and refresh tokens
+        const {
+            accessToken,
+            refreshToken: newRefreshToken,
+        } = await generateAccessAndRefereshTokens(user._id);
+
+        // Send new tokens
+        return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", newRefreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        accessToken,
+                        refreshToken: newRefreshToken,
+                    },
+                    "Access token refreshed successfully"
+                )
+            );
+
+    } catch (error) {
+        throw new ApiError(
+            401,
+            error?.message || "Invalid refresh token"
+        );
+    }
+
+});
+
+
+
+
