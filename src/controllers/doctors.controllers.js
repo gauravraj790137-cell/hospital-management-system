@@ -47,3 +47,15 @@ const createDoctor = asyncHandler(async (req, res) => {
     });
 
 });
+
+
+
+
+
+const getAllDoctors = asyncHandler(async (req, res) => {
+
+    const doctors = await doctormodel.find();
+
+    res.status(200).json(doctors);
+
+});
