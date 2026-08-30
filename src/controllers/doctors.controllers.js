@@ -76,3 +76,34 @@ const getDoctorById = asyncHandler(async (req, res) => {
     res.status(200).json(doctor);
 
 });
+
+
+
+const updateDoctor = asyncHandler(async (req, res) => {
+
+    const { name, userId, department, experience, qualification } = req.body;
+    const { id } = req.params;
+
+    const doctor = await doctormodel.findByIdAndUpdate(
+        id,
+        {
+            name,
+            userId,
+            department,
+            experience,
+            qualification
+        },
+        { new: true }
+    );
+
+    if (!doctor) {
+        res.status(404);
+        throw new Error("Doctor not found");
+    }
+
+    res.status(200).json({
+        message: "Doctor details updated successfully",
+        doctor
+    });
+
+});
