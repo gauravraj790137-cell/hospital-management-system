@@ -136,7 +136,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         );
 
         // Find user from decoded token
-        const user = await User.findById(decodedToken?._id);
+        const user = await user.findById(decodedToken?._id);
 
         // Check if user exists
         if (!user) {
