@@ -59,3 +59,20 @@ const getAllDoctors = asyncHandler(async (req, res) => {
     res.status(200).json(doctors);
 
 });
+
+
+
+const getDoctorById = asyncHandler(async (req, res) => {
+
+    const { id } = req.params;
+
+    const doctor = await doctormodel.findById(id);
+
+    if (!doctor) {
+        res.status(404);
+        throw new Error("Doctor not found");
+    }
+
+    res.status(200).json(doctor);
+
+});
