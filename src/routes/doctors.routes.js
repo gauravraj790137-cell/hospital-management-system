@@ -18,6 +18,6 @@ router.get("/:id", getDoctorById);
 
 router.patch("/:id", updateDoctor);
 
-router.delete("/:id", deleteDoctor);
+router.delete("/:id", verifyJWT, deleteDoctor);
 
 export default router;
