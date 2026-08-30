@@ -107,3 +107,21 @@ const updateDoctor = asyncHandler(async (req, res) => {
     });
 
 });
+
+const deleteDoctor = asyncHandler(async (req, res) => {
+
+    const { id } = req.params;
+
+    const doctor = await doctormodel.findByIdAndDelete(id);
+
+    if (!doctor) {
+        res.status(404);
+        throw new Error("Doctor not found");
+    }
+
+    res.status(200).json({
+        message: "Doctor deleted successfully",
+        doctor
+    });
+
+});
