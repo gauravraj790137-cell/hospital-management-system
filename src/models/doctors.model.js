@@ -4,14 +4,20 @@ const doctorschema = new mongoose.Schema({
         type:string,
         required:true,
     },
-    userid:{
-        type:string,
-        required:true,
+    userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
     },
-    department:{
-        type:string,
-        required:true,
+
+    department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
+    required: true
     },
+
+    
+   
     experience:{
         type:number,
         required:true,
