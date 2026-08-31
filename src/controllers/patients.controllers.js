@@ -47,3 +47,20 @@ const getAllPatients = asyncHandler(async (req, res) => {
     res.status(200).json(patients);
 
 });
+
+
+
+const getPatientById = asyncHandler(async (req, res) => {
+
+    const { id } = req.params;
+
+    const patient = await patientmodel.findById(id);
+
+    if (!patient) {
+        res.status(404);
+        throw new Error("Patient not found");
+    }
+
+    res.status(200).json(patient);
+
+});
