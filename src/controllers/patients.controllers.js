@@ -64,3 +64,33 @@ const getPatientById = asyncHandler(async (req, res) => {
     res.status(200).json(patient);
 
 });
+
+
+const updatePatient = asyncHandler(async (req, res) => {
+
+    const { name, userid, DOB, bloodgroup, address } = req.body;
+    const { id } = req.params;
+
+    const patient = await patientmodel.findByIdAndUpdate(
+        id,
+        {
+            name,
+            userid,
+            DOB,
+            bloodgroup,
+            address
+        },
+        { new: true }
+    );
+
+    if (!patient) {
+        res.status(404);
+        throw new Error("Patient not found");
+    }
+
+    res.status(200).json({
+        message: "Patient details updated successfully",
+        patient
+    });
+
+});
