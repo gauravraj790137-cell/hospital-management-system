@@ -18,7 +18,7 @@ router.get("/", verifyJWT, getAllPatients);
 
 router.get("/:id", verifyJWT, getPatientById);
 
-router.patch("/:id", verifyJWT, updatePatient);
+router.patch("/:id",  updatePatient);
 
 router.delete("/:id", verifyJWT, deletePatient);
 
