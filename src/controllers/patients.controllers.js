@@ -39,3 +39,11 @@ const createPatient = asyncHandler(async (req, res) => {
     });
 
 });
+
+const getAllPatients = asyncHandler(async (req, res) => {
+
+    const patients = await patientmodel.find();
+
+    res.status(200).json(patients);
+
+});
