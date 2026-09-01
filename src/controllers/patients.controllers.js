@@ -94,3 +94,22 @@ const updatePatient = asyncHandler(async (req, res) => {
     });
 
 });
+
+
+const deletePatient = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const patient = await Patient.findById(id);
+
+    if (!patient) {
+        throw new ApiError(404, "Patient not found");
+    }
+
+    await Patient.findByIdAndDelete(id);
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, null, "Patient deleted successfully")
+        );
+});
