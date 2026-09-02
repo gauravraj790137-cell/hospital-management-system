@@ -35,3 +35,28 @@ const getAllAppointments = asyncHandler(async (req, res) => {
         data: appointments
     });
 });
+
+
+const getAppointmentById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const appointment = await Appointment.findById(id)
+        .populate("patient")
+        .populate("doctor");
+
+    if (!appointment) {
+        throw new ApiError(404, "Appointment not found");
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: "Appointment fetched successfully",
+        data: appointment
+    });
+});
+
+export {
+    createAppointment,
+    getAllAppointments,
+    getAppointmentById
+};
