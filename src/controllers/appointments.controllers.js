@@ -23,3 +23,15 @@ const createAppointment = asyncHandler(async (req, res) => {
         data: appointment
     });
 });
+
+const getAllAppointments = asyncHandler(async (req, res) => {
+    const appointments = await Appointment.find()
+        .populate("patient")
+        .populate("doctor");
+
+    return res.status(200).json({
+        success: true,
+        message: "Appointments fetched successfully",
+        data: appointments
+    });
+});
