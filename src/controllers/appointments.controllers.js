@@ -60,3 +60,28 @@ export {
     getAllAppointments,
     getAppointmentById
 };
+
+
+const updateAppointment = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { date, time, reason, status } = req.body;
+
+    const appointment = await Appointment.findById(id);
+
+    if (!appointment) {
+        throw new ApiError(404, "Appointment not found");
+    }
+
+    if (date !== undefined) appointment.date = date;
+    if (time !== undefined) appointment.time = time;
+    if (reason !== undefined) appointment.reason = reason;
+    if (status !== undefined) appointment.status = status;
+
+    await appointment.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Appointment updated successfully",
+        data: appointment
+    });
+});
