@@ -85,3 +85,22 @@ const updateAppointment = asyncHandler(async (req, res) => {
         data: appointment
     });
 });
+
+
+
+const deleteAppointment = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const appointment = await Appointment.findById(id);
+
+    if (!appointment) {
+        throw new ApiError(404, "Appointment not found");
+    }
+
+    await Appointment.findByIdAndDelete(id);
+
+    return res.status(200).json({
+        success: true,
+        message: "Appointment deleted successfully"
+    });
+});
