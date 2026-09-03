@@ -104,3 +104,26 @@ const deleteAppointment = asyncHandler(async (req, res) => {
         message: "Appointment deleted successfully"
     });
 });
+
+
+
+
+const getMyAppointments = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const appointments = await Appointment.find({
+        $or: [
+            { patient: userId },
+            { doctor: userId }
+        ]
+    })
+        .populate("patient")
+        .populate("doctor")
+        .sort({ date: 1 });
+
+    return res.status(200).json({
+        success: true,
+        message: "Your appointments fetched successfully",
+        data: appointments
+    });
+});
