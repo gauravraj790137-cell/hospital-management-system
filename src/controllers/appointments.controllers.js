@@ -116,10 +116,7 @@ const getMyAppointments = asyncHandler(async (req, res) => {
             { patient: userId },
             { doctor: userId }
         ]
-    })
-        .populate("patient")
-        .populate("doctor")
-        .sort({ date: 1 });
+    }).sort({ date: 1 });
 
     return res.status(200).json({
         success: true,
