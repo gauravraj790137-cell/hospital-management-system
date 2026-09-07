@@ -54,3 +54,11 @@ export const createMedicalRecord = asyncHandler(async (req, res) => {
     medicalRecord
   });
 });
+
+
+
+export const getAllMedicalRecords = asyncHandler(async (req, res) => {
+  const medicalRecords = await medicalrecordmodel.find();
+
+  res.status(200).json(medicalRecords);
+});
