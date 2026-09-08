@@ -78,3 +78,47 @@ export const getMedicalRecordById = asyncHandler(async (req, res) => {
 
   res.status(200).json(medicalRecord);
 });
+
+
+
+export const updateMedicalRecord = asyncHandler(async (req, res) => {
+  const {
+    patientId,
+    doctorId,
+    appointmentId,
+    diagnosis,
+    symptoms,
+    prescription,
+    testReports,
+    notes
+  } = req.body;
+
+  const { id } = req.params;
+
+  const medicalRecord = await medicalrecordmodel.findByIdAndUpdate(
+    id,
+    {
+      patientId,
+      doctorId,
+      appointmentId,
+      diagnosis,
+      symptoms,
+      prescription,
+      testReports,
+      notes
+    },
+    {
+      new: true
+    }
+  );
+
+  if (!medicalRecord) {
+    res.status(404);
+    throw new Error("Medical record not found");
+  }
+
+  res.status(200).json({
+    message: "Medical record updated successfully",
+    medicalRecord
+  });
+});
