@@ -62,3 +62,19 @@ export const getAllMedicalRecords = asyncHandler(async (req, res) => {
 
   res.status(200).json(medicalRecords);
 });
+
+
+
+
+export const getMedicalRecordById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const medicalRecord = await medicalrecordmodel.findById(id);
+
+  if (!medicalRecord) {
+    res.status(404);
+    throw new Error("Medical record not found");
+  }
+
+  res.status(200).json(medicalRecord);
+});
