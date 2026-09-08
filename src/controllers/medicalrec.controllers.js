@@ -122,3 +122,20 @@ export const updateMedicalRecord = asyncHandler(async (req, res) => {
     medicalRecord
   });
 });
+
+
+export const deleteMedicalRecord = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const medicalRecord = await medicalrecordmodel.findByIdAndDelete(id);
+
+  if (!medicalRecord) {
+    res.status(404);
+    throw new Error("Medical record not found");
+  }
+
+  res.status(200).json({
+    message: "Medical record deleted successfully",
+    medicalRecord
+  });
+});
