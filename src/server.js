@@ -20,3 +20,4 @@ import departmentroutes from "./routes/department.routes.js";
 app.use("/api/departments", departmentroutes);
 app.use("/api/users", userRoutes);
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/medicalrecords", medicalRecordRoutes);
