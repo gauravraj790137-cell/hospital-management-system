@@ -1,3 +1,14 @@
+
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { medicalrecordmodel } from "../models/medicalRecord.model.js";
+import { patientmodel } from "../models/patient.model.js";
+import { doctormodel } from "../models/doctor.model.js";
+import { appointmentmodel } from "../models/appointment.model.js";
+
+
+
+
+
 export const createMedicalRecord = asyncHandler(async (req, res) => {
   const {
     patientId,
