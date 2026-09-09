@@ -4,8 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import userRoutes from "./routes/userRoutes.js";
 import doctorRoutes from "./routes/doctorRoutes.js";
-
-
+import medicalRecordRoutes from "./routes/medicalRecordRoutes.js";
 
 const startserver = async()=>{
     await connectDB();
