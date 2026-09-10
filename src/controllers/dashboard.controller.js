@@ -38,3 +38,13 @@ const completedAppointments = asyncHandler(async (req, res) => {
     }
   });
 });
+
+const pendingAppointments = asyncHandler(async (req, res) => {
+  const pendingAppointmentsCount = await appointmentmodel.countDocuments({ status: "scheduled" });
+  res.status(200).json({
+    success: true,
+    data: {
+      pendingAppointmentsCount
+    }
+  });
+});
