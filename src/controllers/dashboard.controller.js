@@ -26,3 +26,15 @@ export const getDashboardOverview = asyncHandler(async (req, res) => {
     }
   });
 });
+
+
+
+const completedAppointments = asyncHandler(async (req, res) => {
+  const completedAppointmentsCount = await appointmentmodel.countDocuments({ status: "completed" });
+  res.status(200).json({
+    success: true,
+    data: {
+      completedAppointmentsCount
+    }
+  });
+});
