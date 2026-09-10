@@ -28,13 +28,17 @@ export const getDashboardOverview = asyncHandler(async (req, res) => {
 });
 
 
-
-const completedAppointments = asyncHandler(async (req, res) => {
+export const getAppointmentStats = asyncHandler(async (req, res) => {
   const completedAppointmentsCount = await appointmentmodel.countDocuments({ status: "completed" });
+  const pendingAppointmentsCount = await appointmentmodel.countDocuments({ status: "scheduled" });
+  const cancelledAppointmentsCount = await appointmentmodel.countDocuments({ status: "cancelled" });
+
   res.status(200).json({
     success: true,
     data: {
-      completedAppointmentsCount
+      completedAppointmentsCount,
+      pendingAppointmentsCount,
+      cancelledAppointmentsCount
     }
   });
 });
@@ -45,6 +49,17 @@ const pendingAppointments = asyncHandler(async (req, res) => {
     success: true,
     data: {
       pendingAppointmentsCount
+    }
+  });
+});
+
+
+const cancelledAppointments = asyncHandler(async (req, res) => {
+  const cancelledAppointmentsCount = await appointmentmodel.countDocuments({ status: "cancelled" });
+  res.status(200).json({
+    success: true,
+    data: {
+      cancelledAppointmentsCount
     }
   });
 });
