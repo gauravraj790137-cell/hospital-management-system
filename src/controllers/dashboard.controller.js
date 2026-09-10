@@ -63,3 +63,14 @@ const cancelledAppointments = asyncHandler(async (req, res) => {
     }
   });
 });
+
+res.status(200).json({
+    totalUsers,
+    totalDoctors,
+    totalPatients,
+    totalDepartments,
+    totalAppointments,
+    completedAppointmentsCount,
+    pendingAppointmentsCount,
+    cancelledAppointmentsCount
+  });
