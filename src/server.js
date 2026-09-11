@@ -21,3 +21,4 @@ app.use("/api/departments", departmentroutes);
 app.use("/api/users", userRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/medicalrecords", medicalRecordRoutes);
+app.use("/api/dashboard", dashboardRoutes);
