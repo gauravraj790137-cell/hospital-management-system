@@ -74,3 +74,51 @@ res.status(200).json({
     pendingAppointmentsCount,
     cancelledAppointmentsCount
   });
+
+
+  export const getAppointmentsByDepartment = asyncHandler(async (req, res) => {
+  const appointments = await appointmentmodel.aggregate([
+    {
+      $lookup: {
+        from: "doctors",
+        localField: "doctorId",
+        foreignField: "_id",
+        as: "doctor"
+      }
+    },
+    {
+      $unwind: "$doctor"
+    },
+    {
+      $lookup: {
+        from: "departments",
+        localField: "doctor.department",
+        foreignField: "_id",
+        as: "department"
+      }
+    },
+    {
+      $unwind: "$department"
+    },
+    {
+      $group: {
+        _id: "$department._id",
+        departmentName: {
+          $first: "$department.name"
+        },
+        totalAppointments: {
+          $sum: 1
+        }
+      }
+    },
+    {
+      $sort: {
+        totalAppointments: -1
+      }
+    }
+  ]);
+
+  res.status(200).json({
+    appointmentsByDepartment: appointments
+  });
+});
