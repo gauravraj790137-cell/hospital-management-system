@@ -122,3 +122,46 @@ res.status(200).json({
     appointmentsByDepartment: appointments
   });
 });
+
+
+
+export const getAppointmentsByDoctor = asyncHandler(async (req, res) => {
+  const appointments = await appointmentmodel.aggregate([
+    {
+      $group: {
+        _id: "$doctorId",
+        totalAppointments: {
+          $sum: 1
+        }
+      }
+    },
+    {
+      $lookup: {
+        from: "doctors",
+        localField: "_id",
+        foreignField: "_id",
+        as: "doctor"
+      }
+    },
+    {
+      $unwind: "$doctor"
+    },
+    {
+      $project: {
+        _id: 0,
+        doctorId: "$doctor._id",
+        doctorName: "$doctor.name",
+        totalAppointments: 1
+      }
+    },
+    {
+      $sort: {
+        totalAppointments: -1
+      }
+    }
+  ]);
+
+  res.status(200).json({
+    appointmentsByDoctor: appointments
+  });
+});
