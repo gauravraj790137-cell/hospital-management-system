@@ -22,4 +22,11 @@ router.get(
   getAppointmentsByDepartment
 );
 
+router.get(
+  "/appointments-by-doctor",
+  verifyJWT,
+  authorizeRoles("admin"),
+  getAppointmentsByDoctor
+);
+
 export default router;
